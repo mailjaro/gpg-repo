@@ -1,6 +1,10 @@
 # 🔒 gpg
 
-## Installasjon
+Dette heftet gir en ibnføring i GPG. De vanligste kommandoene og operasjonene forklares, men også de utvidede mulighetene som sjeldnere omtales, behandles.
+
+Heftet fokuserer ikke på spesielle anvendelser men har en generell tilnærming.
+
+## 💻 Installasjon
 
 **gpg** inneholder et større sett av funksjonalitet for å kryptere, signere, tidsstemple, dekryptere og verifisere filer mm. Både asymmetriske og symmetriske teknikker støttes. Man kan generere, importere eller eksportere offentlige nøkler/sertifikater, og man kan eksportere eller verifisere slike.
 
