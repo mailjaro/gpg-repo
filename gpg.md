@@ -1,6 +1,6 @@
 # 🔒 gpg
 
-Dette heftet gir en ibnføring i GPG. De vanligste kommandoene og operasjonene forklares, men også de utvidede mulighetene som sjeldnere omtales, behandles.
+Dette heftet gir en innføring i GPG. De vanligste kommandoene og operasjonene forklares, men også de utvidede mulighetene som sjeldnere omtales, behandles.
 
 Heftet fokuserer ikke på spesielle anvendelser men har en generell tilnærming.
 
@@ -10,7 +10,7 @@ Heftet fokuserer ikke på spesielle anvendelser men har en generell tilnærming.
 
 For evt. å installere **gpg**, utfør `sudo apt install gpg`.
 
-**gpg** er ideelt å bruke når man skal utveksle filer sikkert. Men det er også bra kun for kryptering av egne filer. Det fins flere alternativer for det sistnevnte, men **gpg** har fordelen av å være så velkjent og mye brukt at gjennombrudd i kryptoanlayse eller avdekking av svakheter fort vil bli spredd og kompensert for.
+**gpg** er ideelt å bruke når man skal utveksle filer sikkert. Men det er også bra kun for kryptering av egne filer. Det fins flere alternativer for det sistnevnte, men **gpg** har fordelen av å være så velkjent og mye brukt at gjennombrudd i kryptoanalyse eller avdekking av svakheter fort vil bli spredd og kompensert for.
 
 For å kryptere en fil med en passordfrase kan man bare gjøre
 
@@ -147,11 +147,11 @@ Etter man har angitt ovennevnte kommando, får man mulighet til også velge algo
     Your selection?
 ```
 
-For oss er kun 1, 2 og 9 aktuelle. Med 1 benyttes **RSA** både for signering `[S]` og kryptering (nøkkelutveksling) `[E]`. For 2 benyttes **DSA** for `[S]` og **Elgamal** for `[E]` (begge har sin rot i **Diffie**-**Hellman**-systemet), mens for 3 (standard per nå) benyttes elliptiske kurver både for `[S]` og `[E]`.
+For oss er kun 1, 2 og 9 aktuelle. Med 1 benyttes **RSA** både for signering `[S]` og kryptering (nøkkelutveksling) `[E]`. For 2 benyttes **DSA** for `[S]` og **Elgamal** for `[E]` (begge har sin rot i **Diffie-Hellman**-systemet), mens for 3 (standard per nå) benyttes elliptiske kurver både for `[S]` og `[E]`.
 
 La oss se nærmere på disse muligheten. (Standardvalg er merket eller vist i parentes.)
 
-**1 RSA/RSA**
+#### 1 RSA/RSA
 
 Da får man opp følgende muligheter:
 
@@ -162,7 +162,8 @@ What keysize do you want? (3072)
 
 Nøkkellengden gjelder for både `[S]` og `[E]`. Før ble 2024 bits ansett som tilstrekkelig, og det holder sikkert fortsatt. Nå er det ikke uvanlig å velge 4096.
 
-**2 DSA/Elgamal**
+#### 2 DSA/Elgamal
+
 Da får man fram:
 
 ```output
@@ -172,7 +173,7 @@ What keysize do you want? (2048)
 
 Valget setter nøkkellengde både for **DSA** `[S]` og **Elgamal** `[E]`.
 
-**9 ECC/ECC**
+#### 9 ECC/ECC
 
 Da får man fram:
 
@@ -228,7 +229,7 @@ Key is valid for? (0)
 
 **Merk**: Kommentaren blir en del av nøkkelsettet og kan ikke endres. Velg også denne med en viss omhu.
 
-```
+```output
 GnuPG needs to construct a user ID to identify your key.
 
 Real name:
@@ -249,7 +250,7 @@ uid Ola Nordmann (Kun for testformål) <ola.nordmann@gmail.com>
 sub elg1024 2025-02-12 [E] [expires: 2026-02-12]
 ```
 
-Merk at man får laget *to* nøkkelpar: *master *(*primary*) og *sub* (*secondary*). Hensikten med *sub*-nøkkelen (som er bundet til *master*) er at den kan oppbevares og annulleres uavhengig av *master*. Det er egentlig offentlig *sub*-nøkkel som blir eksportert og benyttet i andres kryptering til deg. *Master*-paret kan tryggere begrenses til intern håndtering av signering, sertifisering, nøkkelring etc.
+Merk at man får laget *to* nøkkelpar: *master* (*primary*) og *sub* (*secondary*). Hensikten med *sub*-nøkkelen (som er bundet til *master*) er at den kan oppbevares og annulleres uavhengig av *master*. Det er egentlig offentlig *sub*-nøkkel som blir eksportert og benyttet i andres kryptering til deg. *Master*-paret kan tryggere begrenses til intern håndtering av signering, sertifisering, nøkkelring etc.
 
 I eksempelet er begge 1014-bits **DSA**/**Elgemal**-nøkler med én og samme utløpsdato. *Primary* er merket `[SC]`, og *secondary* er merket `[E]`. Dette betegner bruksegenskapene hhv. **S**ign og **C**ertify, og **E**ncryption (nøkkelutveksling) i tråd med det ovennevnte.
 
