@@ -25,8 +25,13 @@ sd '📚 ' '' gpg-2.adoc
 sd '💻 ' '' gpg-2.adoc
 sd '🔒 ' '' gpg-2.adoc
 sd '🔑 ' '' gpg-2.adoc
+sd '✔️ ' '' gpg-2.adoc
 sd '📘 ' '' gpg-2.adoc
 sd '❗' 'MERK:' gpg-2.adoc
+sd '🚩 ' '' gpg-2.adoc
+sd '➕ ' '' gpg-2.adoc
+sd '📘 ' '' gpg-2.adoc
+
 
 asciidoctor -a stylesheet=../styles/asciidoctor-default.css \
             -a data-uri \

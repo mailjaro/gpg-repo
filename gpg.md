@@ -2,7 +2,7 @@
 
 Dette heftet gir en innføring i GPG. I tillegg de vanligste kommandoene og grunnleggende bruk, ser man også på mange av de utvidede mulighetene som sjeldnere omtales.
 
-Alle eksempler og kommandoer er Linux-baserte. Oppførselen vil likevel være den samme på andre systemer, og beskrivelsene bør ha en viss overføringsverdi.
+Alle eksempler og kommandoer er Linux-baserte. Oppførselen vil likevel være den samme på andre systemer, og beskrivelsene bør ha en viss generell overføringsverdi.
 
 ## 💻 Installasjon
 
@@ -32,25 +32,29 @@ For å kryptere en fil med en passordfrase kan man bare gjøre
 gpg -c farlig.txt
 ```
 
-Men blir bedt om å finne på et passord (som må oppgis to ganger for sikkerhet skyld). **NB**: Glemmer du passordet, et filen tapt for alltid. Resultatet blir  en ny fil **farlig.txt.gpg**, og originalen kan slettes:
+Men blir bedt om et passord (som må oppgis to ganger for sikkerhet skyld).
+
+🚩 Glemmer du dette passordet, er filen tapt for alltid.
+
+Resultatet blir  en ny fil **farlig.txt.gpg**, og originalen kan slettes:
 
 ```bash
 rm farlig.txt
 ```
-Man kan også vurdere å bruk **shred** isteden for tryggere sletting (dataene overskrives), ved:
+Man kan også vurdere å bruk **shred** for tryggere sletting (dataene overskrives):
 
 
 ```bash
 shred -uzv farlig.txt
 ```
 
-For å dekryptere kan man bare skrive
+For å dekryptere igjen kan man bare skrive
 
 ```bash
 gpg farlig.txt.gpg
 ```
 
-Merk også at hvis man benytter opsjonen `-a`, får resultatfilen en ASCII-koding (istedenfor en egen binær **gpg**-koding), og filen får endelsen **.asc**.
+Hvis man benytter opsjonen `-a`, får resultatfilen en ASCII-koding (istedenfor en egen binær **gpg**-koding), og filen får endelsen **.asc**.
 
 For å lese innholdet til skjerm, angi:
 
@@ -58,13 +62,7 @@ For å lese innholdet til skjerm, angi:
 gpg -d farlig.txt.gpg
 ```
 
-For å gjenskape den opprinnelige filen, utfør
-
-```bash
-gpg farlig.txt.gpg
-```
-
-Ønsker man å styre navnet på den dekrypterte filen, bruk:
+For å gjenskape den opprinnelige filen gjør man vanligvis `gpg farlig.txt.gpg`, men ønsker man å styre navnet på den dekrypterte filen, kan man bruke:
 
 ```bash
 gpg -d -o nyfil.txt farlig.txt.gpg
@@ -72,7 +70,7 @@ gpg -d -o nyfil.txt farlig.txt.gpg
 
 ❗ Man kan dra sammen flere opsjoner, som **-d -o** til **-do** osv., men dette unngås her for synliggjøring.
 
- ❗ **gpg** mellomlagrer passord for sesjoner, slik at man en stund ikke trenger å angi passord på nytt. Man kan droppe denne mellomlagringen ved opsjonen **\--no-symkey-cache**:'
+ ❗ **gpg** mellomlagrer passord for sesjoner (slik at man en stund ikke trenger å angi passord på nytt). Man kan droppe mellomlagringen ved opsjonen **\--no-symkey-cache**:'
 
 ```bash
 gpg --no-symkey-cache -c farlig.txt
@@ -125,7 +123,9 @@ Denne spør om fullt navn og e-postadresse, samt om en beskyttende passordfrase.
 
 For de fleste er dette tilstrekkelig, og man kan hoppe fram til kapittel **Brukersertifisering av nøkler**.
 
-Men noen entusiaster ønsker å styre alle valg selv, ikke bare godta standardverdier, så vi viser flere detaljer om dette først.
+### ✔️ Avanserte genereringsvalg
+
+Men noen entusiaster ønsker å styre alle valg selv, ikke bare godta standardverdier, så vi viser flere detaljer om nøkkelgenereringen først.
 
 Entusiastene kan isteden gjøre
 
@@ -396,7 +396,7 @@ sub elg1024/0672409B 2025-02-12 [E] [expires: 2026-02-12]
 
 I begge tilfeller er kort eller langt fingeravtrykk vist i gult, både for *primary* og *sub*.
 
-### Brukersertifisering av nøkler
+### 🔑 Brukersertifisering av nøkler
 
 Om man vil kommunisere med flere, vil det kunne bli behov for å signere andres nøkler. Helst bør offentlige nøkler/sertifikater bli kontrollert og sertifisert av en betrodd instans (**CA**), men for småskala kommunikasjon, er det vanligere at person A sertifiserer B, B sertifiserer C, slik at A også har mulighet til å stole på nøklene til person C osv.
 
@@ -444,7 +444,7 @@ gpg -a --export ola.nordmann@gmail.com | gpg -s -e -r kari.nordmann@gmail.com > 
 
 Sluttfilen **ola.nordmann.asc.gpg** kan trygt sendes Kari på e-post, og hun kan dekryptere og signatursjekke (ved `gpg ola.nordmann.asc.gpg`) og importere Olas nøkkel tilsvarende (`gpg --import Ola.Nordmann.asc`). Ola og Kari kan nå kommunisere trygt og effektivt, og man vil også kunne utvide det til å stole på nøkler den andre har godtatt.
 
-### Kryptering og signering
+### 🔑 Kryptering og signering
 
 Slik kan Ola nå kryptere en fil bare Kari kan åpne og lese (vist i fire varianter)
 
@@ -536,7 +536,9 @@ gpg --verify kontrakt.pdf.sig kontrakt.pdf
 
 Igjen kontrolleres det om signaturen er gyldig (at signert dokument samsvarer med kontrakten) og angis hvem som har signert det (forhåpentligvis Ola).
 
-De som har valgt å ikke hoppe over noe, vet at Ola kan legge til flere, ekstra signeringsnøkler. Dessuten kan han ha eldre nøkkelsett på nøkkelringen. Så hvordan skal Ola gå fram da for å velge rett signeringsnøkkel da?
+#### Avanserte valg for signering og kryptering
+
+De som ikke hoppet over underkapittelet om avanserte genereringsvalg, vet at Ola kan legge til flere signeringsnøkler. Dessuten kan han ha eldre nøkkelsett på nøkkelringen, så hvordan skal Ola gå fram da for å velge rett signeringsnøkkel i slike tilfeller?
 
 For det første kan han sette hva som er standard `[S]`-nøkkel i filen **\~/.gnupg/gpg.conf**. Et eksempel på dette er vist til slutt i kapittelet. Men hvis han isteden vil spesifisere fra gang til gang, kan man gjøre som forklart i fortsettelsen. La oss se på dette med ekstra signeringsnøkler først.
 
@@ -627,7 +629,7 @@ og få produsert åpen fil **farlig.txt**.
 
 Ola kan selvsagt også kryptere (evt. signere eller kryptere *og* signere) til seg selv ved å angi recipient **-r Ola**, `r -ola.nordmann@gmail.com` eller tilsvarende). Hvis han da ikke heller vil bruke den symmetriske varianten med **-c** i dette tilfellet.
 
-### Annet
+### ➕ Annet
 
 Det er som antydet underveis, mulig å sette en del standardverdier i filen **~/.gnupg/gpg.conf**. Her ser vi et par eksempler:
 
