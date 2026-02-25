@@ -32,11 +32,13 @@ For å kryptere en fil med en passordfrase kan man bare gjøre
 gpg -c farlig.txt
 ```
 
-Dette lager en ny fil **farlig.txt.gpg**, og originalen kan slettes. Man kan også vurdere å bruk **shred** istedenfor **rm** for tryggere sletting, f.eks.
+Men blir bedt om å finne på et passord (som må oppgis to ganger for sikkerhet skyld). **NB**: Glemmer du passordet, et filen tapt for alltid. Resultatet blir  en ny fil **farlig.txt.gpg**, og originalen kan slettes:
 
 ```bash
 rm farlig.txt
 ```
+Man kan også vurdere å bruk **shred** isteden for tryggere sletting (dataene overskrives), ved:
+
 
 ```bash
 shred -uzv farlig.txt
@@ -56,13 +58,13 @@ For å lese innholdet til skjerm, angi:
 gpg -d farlig.txt.gpg
 ```
 
-For å gjenskape den leselige filen, utfør
+For å gjenskape den opprinnelige filen, utfør
 
 ```bash
 gpg farlig.txt.gpg
 ```
 
-Ønsker man å styre navnet på den dekryptere filen, bruk:
+Ønsker man å styre navnet på den dekrypterte filen, bruk:
 
 ```bash
 gpg -d -o nyfil.txt farlig.txt.gpg
@@ -109,7 +111,7 @@ gpg: writing to 'farlig.txt.gpg'
 
 ## 🔒 Asymmetrisk kryptering
 
-Bruken her er også enkel. Man vil typisk ønske å sende noe kryptert til en person (hvis data ligger i nøkkelringen), eller man ønsker å signere noe (hvilket krever ens personlige passord/passordfrase). Mottar man noe tilsvarende, vil **gpg** tolke den beskyttede meldingen og si hva som evt. må gjøres videre. I fortsettelsen skal vi først vise vanlig, enkel bruk før vi ser nærmere på utvidede valg.
+Bruken her er også enkel. Man vil typisk ønske å sende noe kryptert til en person (hvis offentlige nøkkel ligger i nøkkelringen), eller man ønsker å signere noe (hvilket krever ens personlige passord/passordfrase). Mottar man noe tilsvarende, vil **gpg** tolke den beskyttede meldingen og si hva som evt. må gjøres videre. Eksempler på alt er vist mot slutten av dokumentet.
 
 ### 🔑 Nøkkelgenerering
 
@@ -121,13 +123,17 @@ gpg --gen-key
 
 Denne spør om fullt navn og e-postadresse, samt om en beskyttende passordfrase. Dette havner da på det lokale **gpg**-systemets nøkkelring (*keychain*), og dermed er alt ferdig og klart til bruk.
 
-Om man isteden ønsker å styre alle valg selv, og ikke bare godta standardverdier, gjør man isteden
+For de fleste er dette tilstrekkelig, og man kan hoppe fram til kapittel **Brukersertifisering av nøkler**.
+
+Men noen entusiaster ønsker å styre alle valg selv, ikke bare godta standardverdier, så vi viser flere detaljer om dette først.
+
+Entusiastene kan isteden gjøre
 
 ```bash
 gpg --full-generate-key
 ```
 
-Etter man har angitt ovennevnte kommando, får man mulighet til også velge algoritmer, nøkkellengder og varighet. Første spørsmålet gjelder ønsket signerings- og krypteringsalgoritme.
+Her får man mulighet til også velge algoritmer, nøkkellengder og varighet. Første spørsmålet gjelder ønsket signerings- og krypteringsalgoritme.
 
 ```output
     Gpg (GnuPG) 2.4.4; Copyright (C) 2024 g10 Code GmbH
