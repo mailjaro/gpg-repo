@@ -1,16 +1,30 @@
 # 🔒 gpg
 
-Dette heftet gir en innføring i GPG. De vanligste kommandoene og operasjonene forklares, men også de utvidede mulighetene som sjeldnere omtales, behandles.
+Dette heftet gir en innføring i GPG. I tilegg de vanligste kommandoene og grunnleggende bruk, ser man også på mange av de utvidede mulighetene som sjeldnere omtale.
 
-Heftet fokuserer ikke på spesielle anvendelser men har en generell tilnærming.
+Alle eksempler og kommandoer er Linux-baserte. Oppførselen vil likevel være den samme på andre systemer, og beskrivelsene bør ha overføringsverdi.
 
 ## 💻 Installasjon
 
+**gpg** lar seg lett installere på Linux. Det følgende eksemplifiserer dette for hhv. Ubuntu og Fedora, to vanlige Linux-distroer:
+
+```bash
+sudo apt update
+sudo apt install gpg
+```
+
+```bash
+sudo dnf update
+sudo dnf install gpg
+```
+
+## Litt om GPG
+
 **gpg** inneholder et større sett av funksjonalitet for å kryptere, signere, tidsstemple, dekryptere og verifisere filer mm. Både asymmetriske og symmetriske teknikker støttes. Man kan generere, importere eller eksportere offentlige nøkler/sertifikater, og man kan eksportere eller verifisere slike.
 
-For evt. å installere **gpg**, utfør `sudo apt install gpg`.
+**gpg** er ideelt å bruke når man skal utveksle filer sikkert, men det er også bra kun for kryptering av egne filer. Det fins andre alternativer for det sistnevnte (f.eks. **ccrypt**), men **gpg** har fordelen av å være så utbredt at gjennombrudd i kryptoanalyse eller avdekking av svakheter fort vil bli spredd og kompensert for.
 
-**gpg** er ideelt å bruke når man skal utveksle filer sikkert. Men det er også bra kun for kryptering av egne filer. Det fins flere alternativer for det sistnevnte, men **gpg** har fordelen av å være så velkjent og mye brukt at gjennombrudd i kryptoanalyse eller avdekking av svakheter fort vil bli spredd og kompensert for.
+## Symmetrisk kryptering
 
 For å kryptere en fil med en passordfrase kan man bare gjøre
 
@@ -18,28 +32,23 @@ For å kryptere en fil med en passordfrase kan man bare gjøre
 gpg -c farlig.txt
 ```
 
-Dette lager en ny fil **farlig.txt.gpg**, og originalen kan slettes. For
-å dekryptere kan man bare skrive
+Dette lager en ny fil **farlig.txt.gpg**, og originalen kan slettes. Man kan også vurdere å bruk **shred** istedenfor **rm** for tryggere sletting, f.eks.
 
 ```bash
-gpg farlig.txt.gpg
+rm farlig.txt
 ```
-
-Et alternativ til **gpg** for kryptering med passordfrase er f.eks. **ccrypt** (i form av kommandoene **ccencrypt** og **ccdecrypt**).
-
-De som ikke har har flere behov enn dette, kan hoppe til neste kapittel.
-
-Vi andre skal se nærmere på vanlig bruk av **gpg** med normalt behov for hemmelighold. For mer avanserte behov kan det nemlig være innstillinger, opsjoner og valg som bør velges og diskuteres mer kritisk.
-
-## Symmetrisk kryptering
-
-Som sagt, for å kryptere en sensitiv fil **farlig.txt**. med passordfrase, kan man utføre `gpg -c farlig.txt`. Man blir da bedt om å velge seg et passord. Resultatet blir filen **farlig.txt .gpg**, og originalen kan trygt slettes/flyttes. Man kan også vurdere å bruk **shred** istedenfor **rm** for tryggere sletting, f.eks.
 
 ```bash
 shred -uzv farlig.txt
 ```
 
-Merk også at hvis man benytter opsjonen **-a **i** gpg**, får resultatfilen en ASCII-koding (istedenfor en egen binær **gpg**-koding), og filen får endelsen **.asc**.
+For å dekryptere kan man bare skrive
+
+```bash
+gpg farlig.txt.gpg
+```
+
+Merk også at hvis man benytter opsjonen `-a`, får resultatfilen en ASCII-koding (istedenfor en egen binær **gpg**-koding), og filen får endelsen **.asc**.
 
 For å lese innholdet til skjerm, angi:
 
@@ -53,21 +62,15 @@ For å gjenskape den leselige filen, utfør
 gpg farlig.txt.gpg
 ```
 
-```output
-gpg: WARNING: no command supplied. Trying to guess what you mean ...
-gpg: AES256.CFB encrypted data
-gpg: encrypted with 1 passphrase
-```
-
-Her gjetter **gpg** korrekt og gir den opprinnelige åpne filen **farlig.txt** tilbake (om man angir rett passord underveis). Ønsker man å styre navnet på den dekryptere filen, bruk:
+Ønsker man å styre navnet på den dekryptere filen, bruk:
 
 ```bash
-gpg -d -o farlig.txt farlig.txt.gpg
+gpg -d -o nyfil.txt farlig.txt.gpg
 ```
 
-Merk at man selvsagt kan dra sammen flere opsjoner, som **-d -o** til **-do** osv., men dette unngås her for synliggjøring.
+❗ Man kan dra sammen flere opsjoner, som **-d -o** til **-do** osv., men dette unngås her for synliggjøring.
 
-Merk også at **gpg** mellomlagrer passord for sesjoner, slik at man en stund ikke trenger å angi passord på nytt. Man kan droppe denne mellomlagringen ved opsjonen **\--no-symkey-cache**:'
+ ❗**gpg** mellomlagrer passord for sesjoner, slik at man en stund ikke trenger å angi passord på nytt. Man kan droppe denne mellomlagringen ved opsjonen **\--no-symkey-cache**:'
 
 ```bash
 gpg --no-symkey-cache -c farlig.txt
@@ -102,30 +105,27 @@ gpg: using cipher TWOFISH.CFB
 gpg: writing to 'farlig.txt.gpg'
 ```
 
-**Merk**: Det er *mulig* å velge algoritmer som **TWOFISH** som standard via **\~/.gnupg/gpg.conf**. (Mer om den filen senere.) Det går bra for symmetrisk (privat) kryptering, men angitt som standard, vil den også benyttes som en del av asymmetrisk kryptering. Det er ikke sikkert mottaker støtter dette, og det anbefales generelt ikke å velge utenfor **gpg**-standarden som default.
+❗ Det er *mulig* å velge algoritmer som **TWOFISH** som standard via **\~/.gnupg/gpg.conf**. (Mer om den filen senere.) Det går bra for symmetrisk (privat) kryptering, men angitt som standard, vil den også benyttes som en del av asymmetrisk kryptering. Det er ikke sikkert mottaker støtter dette, og det anbefales generelt ikke å velge utenfor **gpg**-standarden som default.
 
 ## Asymmetrisk kryptering
 
-Bruken her er også enkel. Man vil typisk ønske å sende noe kryptert til en person (hvis data ligger nøkkelringen)*,* eller man ønsker å signere noe (hvilket krever ens personlige passord/passordfrase). Mottar man noe tilsvarende, vil **gpg** tolke den beskyttede meldingen og si hva som evt. må gjøres videre. Dette antas som relativt vel kjent. I fortsettelsen skal vi først vise vanlig, enkel bruk før vi ser nærmere på utvidede valg.
+Bruken her er også enkel. Man vil typisk ønske å sende noe kryptert til en person (hvis data ligger i nøkkelringen), eller man ønsker å signere noe (hvilket krever ens personlige passord/passordfrase). Mottar man noe tilsvarende, vil **gpg** tolke den beskyttede meldingen og si hva som evt. må gjøres videre. I fortsettelsen skal vi først vise vanlig, enkel bruk før vi ser nærmere på utvidede valg.
 
 ### Nøkkelgenerering
 
-Dersom brukeren trenger å lage seg et nytt offentlige/hemmelig
-nøkkelpar, utføres:
+Dersom brukeren trenger å lage seg et nytt offentlige/hemmelig nøkkelpar, utføres:
 
 ```bash
 gpg --gen-key
 ```
 
-Denne spør om fullt navn og e-postadresse, samt om et beskyttende passord/passordfrase. Dette havner da på det lokale **gpg**-systemets nøkkelring (*keychain*), og dermed er alt ferdig og klart til bruk, Om man vil, kan man hoppe til neste underkapittel.
+Denne spør om fullt navn og e-postadresse, samt om en beskyttende passordfrase. Dette havner da på det lokale **gpg**-systemets nøkkelring (*keychain*), og dermed er alt ferdig og klart til bruk.
 
-Om man isteden ønsker å styre alle valg selv - og ikke bare godta standardverdier, gjør man isteden
+Om man isteden ønsker å styre alle valg selv, og ikke bare godta standardverdier, gjør man isteden
 
 ```bash
 gpg --full-generate-key
 ```
-
-For disse brukerne kommer nå 4-5 sider med forklaringer andre kan hoppe over.
 
 Etter man har angitt ovennevnte kommando, får man mulighet til også velge algoritmer, nøkkellengder og varighet. Første spørsmålet gjelder ønsket signerings- og krypteringsalgoritme.
 
@@ -227,7 +227,7 @@ Key is valid for? (0)
 
 **gpg** viser deretter valgt utløpsdato og ber om bekreftelse på at den er korrekt. Deretter bes det om fullt navn, epost og en kommentar. (Alt blir også bedt om bekreftelse på.)
 
-**Merk**: Kommentaren blir en del av nøkkelsettet og kan ikke endres. Velg også denne med en viss omhu.
+❗ Kommentaren blir en del av nøkkelsettet og kan ikke endres. Velg også denne med en viss omhu.
 
 ```output
 GnuPG needs to construct a user ID to identify your key.
@@ -504,6 +504,7 @@ YW5uQGdtYWlsLmNvbQAKCRBllah6o/aMdtzsAQCjJcwObJyEfEYHs5xVV7eSFhtr
 ```
 
 Her vil Kari se hva Ola har skrevet (at han innrømmer å ha spist opp kakene) og har lagt ved en signatur av dette som Kari kan kontrollere.
+
 Enten har Kari fått tilsendt en tekstfil med ovennevnte innhold, eller hun kan kopiere dette ut i en tekstfil selv, la oss si til **melding.txt.asc**. Kari kan da si:
 
 ```bash
@@ -587,7 +588,7 @@ og vi ser at signeringsvalget framgår tydelig.
 
 På samme måte kan Ola skille mellom signeringsnøkler på ulike *nøkkelsett*. En id er tilstrekkelig også her. Alternativt kan han benytte opsjonen \--**local-user** og angi navn eller e-post, noe som skiller på nøkkelsett - om han godtar standardvalg av signeringsnøkkel.
 
-**Merk**: Man kan *ikke* velge bestemte `[E]`-nøkler på samme måte. **gpg** vil selv håndtere nøkkelutveksling ut fra nøkkelmulighetene til begge brukerne.
+❗ Man kan *ikke* velge bestemte `[E]`-nøkler på samme måte. **gpg** vil selv håndtere nøkkelutveksling ut fra nøkkelmulighetene til begge brukerne.
 
 Som sagt, om skal Ola både kryptere og signere en fil til Kari, kan han skrive:
 
@@ -644,4 +645,14 @@ tree ~/.gnupg
 gpg --with-colons --list-keys --with-fingerprint
 ```
 
-Dersom du ønsker å gjøre gpp-nøklene dine tilgjengelig for andre, vurder steder som **keys.openpgp.org**. Dette er ingen CA (de signerer/sertifiserer ikke nøkler), men de gjør nøkler søkbare for andre basert på tilhørende e-post-adresse. De kontrollerer at avsender eier e-postadressen, men er ingen CA, og kan ikke verifisere at personen er den vedkommende gir seg t for å være.
+Dersom du ønsker å gjøre gpp-nøklene dine tilgjengelig for andre, vurder steder som **keys.openpgp.org**. Dette er ingen CA (de signerer/sertifiserer ikke nøkler), men de gjør nøkler søkbare for andre basert på tilhørende e-post-adresse. De kontrollerer at avsender eier e-postadressen, men er ingen CA, og kan ikke verifisere at personen er den vedkommende gir seg ut for å være.
+
+## 📚 Andre hefter i serien
+
+📘 Linux: Det neste steget
+
+📘 Litt om Git
+
+📘 Litt om VS Code
+
+📘 Litt om CSS
