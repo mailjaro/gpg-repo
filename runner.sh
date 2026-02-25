@@ -21,23 +21,12 @@ asciidoctor -a stylesheet=../styles/asciidoctor-default.css \
 cp gpg-1.adoc gpg-2.adoc
 sd '\[source,text\]' '[%unbreakable]\n[source,text]' gpg-2.adoc
 sd '\[source,json\]' '[%unbreakable]\n[source,json]' gpg-2.adoc
-sd '📘 ' '' gpg-2.adoc
-sd '⚙️ ' '' gpg-2.adoc
-sd '🧩 ' '' gpg-2.adoc
-sd '📄 ' '' gpg-2.adoc
-sd '📁 ' '' gpg-2.adoc
-sd '📂 ' '' gpg-2.adoc
+sd '📚 ' '' gpg-2.adoc
+sd '💻 ' '' gpg-2.adoc
+sd '🔒 ' '' gpg-2.adoc
 sd '🔑 ' '' gpg-2.adoc
-sd '🤖 ' '' gpg-2.adoc
-sd '⚡ ' '' gpg-2.adoc
-sd '🧠 ' '' gpg-2.adoc
-sd '1️⃣ ' '1. ' gpg-2.adoc
-sd '2️⃣ ' '2. ' gpg-2.adoc
-sd '3️⃣ ' '3. ' gpg-2.adoc
-sd '4️⃣ ' '4. ' gpg-2.adoc
-sd '5️⃣ ' '5. ' gpg-2.adoc
-sd '6️⃣ ' '6. ' gpg-2.adoc
-sd '7️⃣ ' '7. ' gpg-2.adoc
+sd '📘 ' '' gpg-2.adoc
+sd '❗' 'MERK:' gpg-2.adoc
 
 asciidoctor -a stylesheet=../styles/asciidoctor-default.css \
             -a data-uri \

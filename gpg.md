@@ -1,8 +1,8 @@
-# 🔒 gpg
+# 📚 gpg
 
-Dette heftet gir en innføring i GPG. I tilegg de vanligste kommandoene og grunnleggende bruk, ser man også på mange av de utvidede mulighetene som sjeldnere omtale.
+Dette heftet gir en innføring i GPG. I tillegg de vanligste kommandoene og grunnleggende bruk, ser man også på mange av de utvidede mulighetene som sjeldnere omtales.
 
-Alle eksempler og kommandoer er Linux-baserte. Oppførselen vil likevel være den samme på andre systemer, og beskrivelsene bør ha overføringsverdi.
+Alle eksempler og kommandoer er Linux-baserte. Oppførselen vil likevel være den samme på andre systemer, og beskrivelsene bør ha en viss overføringsverdi.
 
 ## 💻 Installasjon
 
@@ -18,13 +18,13 @@ sudo dnf update
 sudo dnf install gpg
 ```
 
-## Litt om GPG
+## 🔒 Litt om GPG
 
 **gpg** inneholder et større sett av funksjonalitet for å kryptere, signere, tidsstemple, dekryptere og verifisere filer mm. Både asymmetriske og symmetriske teknikker støttes. Man kan generere, importere eller eksportere offentlige nøkler/sertifikater, og man kan eksportere eller verifisere slike.
 
 **gpg** er ideelt å bruke når man skal utveksle filer sikkert, men det er også bra kun for kryptering av egne filer. Det fins andre alternativer for det sistnevnte (f.eks. **ccrypt**), men **gpg** har fordelen av å være så utbredt at gjennombrudd i kryptoanalyse eller avdekking av svakheter fort vil bli spredd og kompensert for.
 
-## Symmetrisk kryptering
+## 🔒 Symmetrisk kryptering
 
 For å kryptere en fil med en passordfrase kan man bare gjøre
 
@@ -70,7 +70,7 @@ gpg -d -o nyfil.txt farlig.txt.gpg
 
 ❗ Man kan dra sammen flere opsjoner, som **-d -o** til **-do** osv., men dette unngås her for synliggjøring.
 
- ❗**gpg** mellomlagrer passord for sesjoner, slik at man en stund ikke trenger å angi passord på nytt. Man kan droppe denne mellomlagringen ved opsjonen **\--no-symkey-cache**:'
+ ❗ **gpg** mellomlagrer passord for sesjoner, slik at man en stund ikke trenger å angi passord på nytt. Man kan droppe denne mellomlagringen ved opsjonen **\--no-symkey-cache**:'
 
 ```bash
 gpg --no-symkey-cache -c farlig.txt
@@ -107,11 +107,11 @@ gpg: writing to 'farlig.txt.gpg'
 
 ❗ Det er *mulig* å velge algoritmer som **TWOFISH** som standard via **\~/.gnupg/gpg.conf**. (Mer om den filen senere.) Det går bra for symmetrisk (privat) kryptering, men angitt som standard, vil den også benyttes som en del av asymmetrisk kryptering. Det er ikke sikkert mottaker støtter dette, og det anbefales generelt ikke å velge utenfor **gpg**-standarden som default.
 
-## Asymmetrisk kryptering
+## 🔒 Asymmetrisk kryptering
 
 Bruken her er også enkel. Man vil typisk ønske å sende noe kryptert til en person (hvis data ligger i nøkkelringen), eller man ønsker å signere noe (hvilket krever ens personlige passord/passordfrase). Mottar man noe tilsvarende, vil **gpg** tolke den beskyttede meldingen og si hva som evt. må gjøres videre. I fortsettelsen skal vi først vise vanlig, enkel bruk før vi ser nærmere på utvidede valg.
 
-### Nøkkelgenerering
+### 🔑 Nøkkelgenerering
 
 Dersom brukeren trenger å lage seg et nytt offentlige/hemmelig nøkkelpar, utføres:
 
