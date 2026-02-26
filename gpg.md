@@ -233,7 +233,7 @@ Key is valid for? (0)
 
 **gpg** viser deretter valgt utløpsdato og ber om bekreftelse på at den er korrekt. Deretter bes det om fullt navn, epost og en kommentar. (Alt blir også bedt om bekreftelse på.)
 
-❗ Kommentaren blir en del av nøkkelsettet og kan ikke endres. Velg også denne med en viss omhu.
+‼️ Kommentaren blir en del av nøkkelsettet og kan ikke endres. Velg også denne med en viss omhu.
 
 ```output
 GnuPG needs to construct a user ID to identify your key.

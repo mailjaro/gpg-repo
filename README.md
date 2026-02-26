@@ -140,6 +140,8 @@ Opsjonene
 ```
 sørger for at en produsert CCS og bilde (forsidebilde) inkluderes direkte i HTML-filen (så den enkelt kan flyttes rundt).
 
+❗ **asciidoctor**-kommandoen kjøres av **runner.sh**, men tanken er at **css-1.adoc** også kan editeres/finpusses for ADOC-spesifikk formatering før man produserer HTML-format med denne kommandoen manuelt. Det anbefales selvsagt alltid å gjøre tekstlige editeringer, retting av trykkfeil etc, på hovedfilen **css.md** i forkant.
+
 ## 📌 Redigering av ADOC
 
 Man starter med å kopiere `gpg-1.adoc` til `gpg-2.adoc` (alle endringer gjøres så på sistnevnte):
@@ -184,6 +186,8 @@ asciidoctor -a stylesheet=../styles/asciidoctor-default.css \
             config/masterHTML-2.adoc -o builds/gpg-2.html
 ```
 
+❗ **asciidoctor**-kommandoen kjøres av **runner.sh**, men tanken er at **css-2.adoc** også kan editeres/finpusses for ADOC-spesifikk formatering før man produserer HTML-format med denne kommandoen manuelt. Det anbefales selvsagt alltid å gjøre tekstlige editeringer, retting av trykkfeil etc, på hovedfilen **css.md** i forkant.
+
 ## 📌 Redigert eksport til PDF
 
 Tanken er nå at man har behov for å redigerer ytterligere for PDF, kanskje legge inn nødvendig legge sideskift (`<<<`) enkelte steder o.l. Det forutsettes her at man derfor først kopiere  `gpg-2.adoc` til `gpg-3.adoc` og redigerer denne videre.
@@ -217,6 +221,8 @@ asciidoctor-pdf config/masterPDF.adoc \
                 -o builds/gpg.pdf
 ```
 
+❗ **asciidoctor-pdf**-kommandoen kjøres av **runner.sh**, men tanken er at **css-3.adoc** også kan editeres/finpusses før man produserer PDF-format med denne kommandoen manuelt. Det anbefales selvsagt alltid å gjøre tekstlige editeringer, retting av trykkfeil etc, på hovedfilen **css.md** i forkant.
+
 ## 🐚 Kommandoer samlet i et shell
 
 Her er alt av kommandoer samlet i et fish-shell `runner.sh`:
@@ -243,22 +249,20 @@ asciidoctor -a stylesheet=../styles/asciidoctor-default.css \
             config/masterHTML-1.adoc -o builds/gpg-1.html
 
 cp gpg-1.adoc gpg-2.adoc
-sd '\[source,text\]' '[%unbreakable]\n[source,text]' gpg-2.adoc
-sd '\[source,json\]' '[%unbreakable]\n[source,json]' gpg-2.adoc
-sd '📘 ' '' gpg-2.adoc
-sd '⚙️ ' '' gpg-2.adoc
-sd '🧩 ' '' gpg-2.adoc
-sd '📄 ' '' gpg-2.adoc
-sd '📁 ' '' gpg-2.adoc
-sd '📂 ' '' gpg-2.adoc
+sd '\[source,output\]' '[%unbreakable]\n[source,output]' gpg-2.adoc
+sd '\[source,bash\]' '[%unbreakable]\n[source,bash]' gpg-2.adoc
+
+sd '📚 ' '' gpg-2.adoc
+sd '💻 ' '' gpg-2.adoc
+sd '🔒 ' '' gpg-2.adoc
 sd '🔑 ' '' gpg-2.adoc
-sd '1️⃣ ' '1. ' gpg-2.adoc
-sd '2️⃣ ' '2. ' gpg-2.adoc
-sd '3️⃣ ' '3. ' gpg-2.adoc
-sd '4️⃣ ' '4. ' gpg-2.adoc
-sd '5️⃣ ' '5. ' gpg-2.adoc
-sd '6️⃣ ' '6. ' gpg-2.adoc
-sd '7️⃣ ' '7. ' gpg-2.adoc
+sd '✔️ ' '' gpg-2.adoc
+sd '📘 ' '' gpg-2.adoc
+sd '❗' 'NOTE :' gpg-2.adoc
+sd '‼️' 'CAUTION :' gpg-2.adoc
+sd '🚩 ' 'WARNING: ' gpg-2.adoc
+sd '➕ ' '' gpg-2.adoc
+sd '📘 ' '' gpg-2.adoc
 
 asciidoctor -a stylesheet=../styles/asciidoctor-default.css \
             -a data-uri -a \

@@ -19,16 +19,17 @@ asciidoctor -a stylesheet=../styles/asciidoctor-default.css \
             config/masterHTML-1.adoc -o builds/gpg-1.html
 
 cp gpg-1.adoc gpg-2.adoc
-sd '\[source,text\]' '[%unbreakable]\n[source,text]' gpg-2.adoc
-sd '\[source,json\]' '[%unbreakable]\n[source,json]' gpg-2.adoc
+sd '\[source,output\]' '[%unbreakable]\n[source,output]' gpg-2.adoc
+sd '\[source,bash\]' '[%unbreakable]\n[source,bash]' gpg-2.adoc
 sd '📚 ' '' gpg-2.adoc
 sd '💻 ' '' gpg-2.adoc
 sd '🔒 ' '' gpg-2.adoc
 sd '🔑 ' '' gpg-2.adoc
 sd '✔️ ' '' gpg-2.adoc
 sd '📘 ' '' gpg-2.adoc
-sd '❗' 'MERK:' gpg-2.adoc
-sd '🚩 ' '' gpg-2.adoc
+sd '❗' 'NOTE :' gpg-2.adoc
+sd '‼️' 'CAUTION :' gpg-2.adoc
+sd '🚩 ' 'WARNING: ' gpg-2.adoc
 sd '➕ ' '' gpg-2.adoc
 sd '📘 ' '' gpg-2.adoc
 
