@@ -3,9 +3,13 @@
 > Et kort, lite og praktisk hefte om GPG på Linux.  
 > Skrevet av Jan R Sandbakken.
 
+## Hovedfil
+
+Hovedfilen heter **gpg.md**. Øvrige filer og resten av denne README-filen er kun for stiling og produksjon i øvrige formater.
+
 ---
 
-## ❗ Viktig info
+## ❗ Viktig Git-info
 
 ✅ Husk: Start enhver editering med
 
@@ -26,7 +30,7 @@
 
 ## 📌 Om prosjektet
 
-Dette prosjektet inneholder kildematerialet (**gpg.md**) til heftet **"Litt om GPG"**.
+Prosjektet inneholder kildematerialet (**gpg.md**) til heftet **"Litt om GPG"**, samt filer for stiling og produksjon i andre formater.
 
 ## 🗂️ Struktur
 
