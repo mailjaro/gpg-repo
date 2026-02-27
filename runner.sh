@@ -23,22 +23,17 @@ asciidoctor -a stylesheet=../styles/asciidoctor-default.css \
             -a data-uri \
             config/masterHTML-1.adoc -o builds/gpg-1.html
 
-# Tilpassing av kodeblokker:
-cp gpg-1.adoc gpg-2.adoc
-sd '\[source,output\]' '[%unbreakable]\n[source,output]' gpg-2.adoc
-sd '\[source,bash\]' '[%unbreakable]\n[source,bash]' gpg-2.adoc
-
-# Fjerning av alle emojis:
-sd '\p{Extended_Pictographic}\uFE0F? ' '' gpg-2.adoc
-
 # Produksjon av HTML 2:
+cp gpg-1.adoc gpg-2.adoc
+sd '\p{Extended_Pictographic}\uFE0F? ' '' gpg-2.adoc  # Fjerner emojis
 asciidoctor -a stylesheet=../styles/asciidoctor-default.css \
             -a data-uri \
             config/masterHTML-2.adoc -o builds/gpg-2.html
 
-cp gpg-2.adoc gpg-3.adoc
-
 # Produksjon av PDF:
+cp gpg-2.adoc gpg-3.adoc
+sd '\[source,output\]' '[%unbreakable]\n[source,output]' gpg-3.adoc
+sd '\[source,bash\]' '[%unbreakable]\n[source,bash]' gpg-3.adoc
 asciidoctor-pdf config/masterPDF.adoc --theme=styles/asciidoctor-default.yml \
                 -o builds/gpg.pdf
 

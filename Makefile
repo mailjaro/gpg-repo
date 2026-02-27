@@ -1,22 +1,78 @@
-epub: gpg.md config/common.yaml
-	$(info Building EPUB:)
-	@pandoc gpg.md  \
-   --metadata-file=config/common.yaml \
-   --css=styles/epub-dark.css -o \
-   builds/gpg-dark.epub
+# Makefile GPG-DOC project
 
-open-epub:
-	@xdg-open "builds/gpg-dark.epub"
+# source markdown and configuration
+MD = gpg.md
+COMMON = config/common.yaml
+BUILD = builds
 
-preview: open-epub
+# output files
+EPUB_DARK = $(BUILD)/gpg-dark.epub
+EPUB_LIGHT = $(BUILD)/gpg-light.epub
+HTML1 = $(BUILD)/gpg-1.html
+HTML2 = $(BUILD)/gpg-2.html
+PDF = $(BUILD)/gpg.pdf
 
-spellcheck:
-	@hunspell -d nb_NO -p .hunspell_ignore -l gpg.md | sort | uniq
+ASCIIDOC_CSS = styles/asciidoctor-default.css
+ASCIIDOCTOR_THEME = styles/asciidoctor-default.yml
 
-add-word:
-ifndef word
-	$(error Usage: make add-word word=someword)
-endif
-	@echo "$(word)" >> .hunspell_ignore
-	@sort -u .hunspell_ignore -o .hunspell_ignore
+.PHONY: all epub html1 html2 pdf clean
 
+all: epub html1 html2 pdf
+
+# ensure build directory exists
+$(BUILD):
+	@mkdir -p $@
+
+# --- EPUB ------------------------------------------------------------------
+epub: $(BUILD) $(EPUB_DARK) $(EPUB_LIGHT)
+
+$(EPUB_DARK): $(MD) $(COMMON) | $(BUILD)
+	pandoc $(MD) --metadata-file=$(COMMON) \
+	       --css=styles/epub-dark.css -o $@
+
+$(EPUB_LIGHT): $(MD) $(COMMON) | $(BUILD)
+	pandoc $(MD) --metadata-file=$(COMMON) \
+	       --css=styles/epub-light.css -o $@
+
+# --- intermediate AsciiDoc files -------------------------------------------
+
+# converted directly from markdown once per build chain
+gpg-1.adoc: $(MD) $(COMMON)
+	pandoc $(MD) --metadata-file=$(COMMON) --wrap=none \
+	       -f markdown-smart -o $@
+
+# remove emojis when generating HTML2/PDF
+gpg-2.adoc: gpg-1.adoc
+	cp $< $@
+	sd '\p{Extended_Pictographic}\uFE0F? ' '' $@
+
+# add unbreakable attributes before certain source blocks for PDF
+gpg-3.adoc: gpg-2.adoc
+	cp $< $@
+	sd '\[source,output\]' '[%unbreakable]\n[source,output]' $@
+	sd '\[source,bash\]' '[%unbreakable]\n[source,bash]' $@
+
+# --- HTML 1 ----------------------------------------------------------------
+html1: $(HTML1)
+
+$(HTML1): config/masterHTML-1.adoc gpg-1.adoc | $(BUILD)
+	asciidoctor -a stylesheet=../$(ASCIIDOC_CSS) \
+	            -a data-uri config/masterHTML-1.adoc -o $@
+
+# --- HTML 2 ----------------------------------------------------------------
+html2: $(HTML2)
+
+$(HTML2): config/masterHTML-2.adoc gpg-2.adoc | $(BUILD)
+	asciidoctor -a stylesheet=../$(ASCIIDOC_CSS) \
+	            -a data-uri config/masterHTML-2.adoc -o $@
+
+# --- PDF -------------------------------------------------------------------
+pdf: $(PDF)
+
+$(PDF): config/masterPDF.adoc gpg-3.adoc | $(BUILD)
+	asciidoctor-pdf config/masterPDF.adoc --theme=$(ASCIIDOCTOR_THEME) \
+	                -o $@
+
+# --- cleanup ---------------------------------------------------------------
+clean:
+	rm -rf $(BUILD) gpg-1.adoc gpg-2.adoc gpg-3.adoc

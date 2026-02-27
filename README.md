@@ -53,14 +53,14 @@ Ensure you have the following tools installed:
 - **Pandoc** – Document conversion tool
 - **AsciiDoctor** – AsciiDoc processor
 - **AsciiDoctor PDF** – PDF generation plugin
+- **sd** – command‑line string‑replacer (used instead of **sed** when stripping emojis and tweaking AsciiDoc)
 
 #### Installation (Ubuntu/Debian)
 
 ```bash
 sudo apt update
-sudo apt install fish pandoc asciidoctor ruby-asciidoctor-pdf
+sudo apt install fish pandoc asciidoctor ruby-asciidoctor-pdf sd
 ```
-
 #### Installation (Fedora/RHEL)
 
 ```bash
@@ -69,24 +69,39 @@ sudo dnf install fish pandoc asciidoctor rubygem-asciidoctor-pdf
 
 ### Building
 
-Execute the build script to generate all output formats:
+Two build mechanisms are provided: a Fish script and a GNU Make pipeline.
+
+#### Using the script
+
+Execute the build script to generate all output formats (Fish shell required):
 
 ```bash
 fish runner.sh
 ```
 
-This will:
+#### Using Make
+
+A `Makefile` replicates these steps and adds dependency tracking. From the project root you can run:
+
+```bash
+make epub      # builds both dark & light EPUBs
+make html1     # generate HTML version 1
+make html2     # generate HTML version 2
+make pdf       # produce the PDF
+make all       # run epub, html1, html2 and pdf
+```
+
+Both mechanisms perform the following stages:
 1. Convert `gpg.md` → EPUB (dark and light themes) using Pandoc
 2. Convert `gpg.md` → intermediate AsciiDoc format using Pandoc
-3. Generate HTML1 and HTML2 utputs using AsciiDoctor
-
+3. Generate HTML1 and HTML2 outputs using AsciiDoctor
 4. Generate PDF output using AsciiDoctor PDF
 
 The main file **gpg.md** uses emoji icons :-). EPUB and HTML1 include these icons, while HTML2 and PDF do not.
 
 All generated files are placed in the `builds/` directory.
 
-❗ Individual ADOC files can be manually refined to leverage specific AsciiDoc formatting features or to further enhance the HTML or PDF output. Once updated, execute the relevant production commands in **runner.sh**.
+❗ Individual ADOC files can be manually refined to leverage specific AsciiDoc formatting features or to further enhance the HTML or PDF output. Once updated, execute the relevant production commands in **runner.sh** or invoke the corresponding `make` target.
 
 ## 📦 Output Formats
 
