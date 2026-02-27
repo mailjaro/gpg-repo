@@ -659,8 +659,8 @@ Dersom du ønsker å gjøre gpp-nøklene dine tilgjengelig for andre, vurder ste
 
 📘 Linux: Det neste steget
 
-📘 Litt om Git
+📘 [Litt om Git](https://mailjaro.github.io/git-repo/)
 
-📘 Litt om VS Code
+[📘 Litt om VS Code](https://mailjaro.github.io/vscode-repo/)
 
-📘 Litt om CSS
+📘 [Litt om CSS(https://mailjaro.github.io/css-repo/)]
