@@ -1,6 +1,7 @@
 #!/usr/bin/fish
 
 pushd ~/Documents/doc/gpg-doc
+mkdir -p builds
 
 # Produksjon av mørk EPUB:
 pandoc gpg.md  \
