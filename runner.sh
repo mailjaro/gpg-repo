@@ -26,6 +26,8 @@ asciidoctor -a stylesheet=../styles/asciidoctor-default.css \
 
 # Produksjon av HTML 2:
 cp gpg-1.adoc gpg-2.adoc
+sd '❗' 'NOTE:' gpg-2.adoc
+sd '‼️' 'CAUTION:' gpg-2.adoc
 sd '\p{Extended_Pictographic}\uFE0F? ' '' gpg-2.adoc  # Fjerner emojis
 asciidoctor -a stylesheet=../styles/asciidoctor-default.css \
             -a data-uri \

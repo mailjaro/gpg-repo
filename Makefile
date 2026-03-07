@@ -46,6 +46,8 @@ gpg-1.adoc: $(MD) $(COMMON)
 # remove emojis when generating HTML2/PDF
 gpg-2.adoc: gpg-1.adoc
 	@cp $< $@
+	@sd '❗' 'NOTE:' $@
+	@sd '‼️' 'CAUTION:' $@
 	@sd '\p{Extended_Pictographic}\uFE0F? ' '' $@
 
 # add unbreakable attributes before certain source blocks for PDF

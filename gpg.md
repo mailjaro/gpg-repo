@@ -664,3 +664,5 @@ Dersom du ønsker å gjøre gpp-nøklene dine tilgjengelig for andre, vurder ste
 📘 [Litt om VS Code](https://mailjaro.github.io/vscode-repo/)
 
 📘 [Litt om CSS](https://mailjaro.github.io/css-repo/)
+
+📘 [Litt om syntaksutheving](https://mailjaro.github.io/highlight-repo/)
