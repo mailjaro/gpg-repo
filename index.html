@@ -701,11 +701,29 @@ pre.rouge .gs {
 <pre class="rouge highlight"><code data-lang="bash">gpg <span class="nt">-d</span> <span class="nt">-o</span> nyfil.txt farlig.txt.gpg</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Man kan dra sammen flere opsjoner, som <strong>-d -o</strong> til <strong>-do</strong> osv., men dette unngås her for synliggjøring.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Man kan dra sammen flere opsjoner, som <strong>-d -o</strong> til <strong>-do</strong> osv., men dette unngås her for synliggjøring.
+</td>
+</tr>
+</table>
 </div>
-<div class="paragraph">
-<p><strong>gpg</strong> mellomlagrer passord for sesjoner (slik at man en stund ikke trenger å angi passord på nytt). Man kan droppe mellomlagringen ved opsjonen <strong>--no-symkey-cache</strong>:'</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<strong>gpg</strong> mellomlagrer passord for sesjoner (slik at man en stund ikke trenger å angi passord på nytt). Man kan droppe mellomlagringen ved opsjonen <strong>--no-symkey-cache</strong>:'
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -747,8 +765,17 @@ gpg: using cipher TWOFISH.CFB
 gpg: writing to 'farlig.txt.gpg'</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Det er <em>mulig</em> å velge algoritmer som <strong>TWOFISH</strong> som standard via <strong>~/.gnupg/gpg.conf</strong>. (Mer om den filen senere.) Det går bra for symmetrisk (privat) kryptering, men angitt som standard, vil den også benyttes som en del av asymmetrisk kryptering. Det er ikke sikkert mottaker støtter dette, og det anbefales generelt ikke å velge utenfor <strong>gpg</strong>-standarden som default.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Det er <em>mulig</em> å velge algoritmer som <strong>TWOFISH</strong> som standard via <strong>~/.gnupg/gpg.conf</strong>. (Mer om den filen senere.) Det går bra for symmetrisk (privat) kryptering, men angitt som standard, vil den også benyttes som en del av asymmetrisk kryptering. Det er ikke sikkert mottaker støtter dette, og det anbefales generelt ikke å velge utenfor <strong>gpg</strong>-standarden som default.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -907,8 +934,17 @@ Key is valid for? (0)</code></pre>
 <div class="paragraph">
 <p><strong>gpg</strong> viser deretter valgt utløpsdato og ber om bekreftelse på at den er korrekt. Deretter bes det om fullt navn, epost og en kommentar. (Alt blir også bedt om bekreftelse på.)</p>
 </div>
-<div class="paragraph">
-<p>Kommentaren blir en del av nøkkelsettet og kan ikke endres. Velg også denne med en viss omhu.</p>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+Kommentaren blir en del av nøkkelsettet og kan ikke endres. Velg også denne med en viss omhu.
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1360,8 +1396,17 @@ gpg: binary signature, digest algorithm SHA256, key algorithm brainpoolP256r1</c
 <div class="paragraph">
 <p>På samme måte kan Ola skille mellom signeringsnøkler på ulike <em>nøkkelsett</em>. En id er tilstrekkelig også her. Alternativt kan han benytte opsjonen --<strong>local-user</strong> og angi navn eller e-post, noe som skiller på nøkkelsett - om han godtar standardvalg av signeringsnøkkel.</p>
 </div>
-<div class="paragraph">
-<p>Man kan <em>ikke</em> velge bestemte <code>[E]</code>-nøkler på samme måte. <strong>gpg</strong> vil selv håndtere nøkkelutveksling ut fra nøkkelmulighetene til begge brukerne.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Man kan <em>ikke</em> velge bestemte <code>[E]</code>-nøkler på samme måte. <strong>gpg</strong> vil selv håndtere nøkkelutveksling ut fra nøkkelmulighetene til begge brukerne.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Som sagt, om skal Ola både kryptere og signere en fil til Kari, kan han skrive:</p>
@@ -1453,6 +1498,9 @@ gpg <span class="nt">--with-colons</span> <span class="nt">--list-keys</span> <s
 <div class="paragraph">
 <p><a href="https://mailjaro.github.io/css-repo/">Litt om CSS</a></p>
 </div>
+<div class="paragraph">
+<p><a href="https://mailjaro.github.io/highlight-repo/">Litt om syntaksutheving</a></p>
+</div>
 </div>
 </div>
 </div>
@@ -1460,7 +1508,7 @@ gpg <span class="nt">--with-colons</span> <span class="nt">--list-keys</span> <s
 <div id="footer">
 <div id="footer-text">
 Version 1.0 2026-02-19<br>
-Last updated 2026-02-27 16:43:08 +0100
+Last updated 2026-03-02 11:52:15 +0100
 </div>
 </div>
 </body>
