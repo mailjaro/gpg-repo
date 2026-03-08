@@ -638,7 +638,7 @@ pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
 <li><a href="#_asymmetrisk_kryptering">Asymmetrisk kryptering</a>
 <ul class="sectlevel3">
 <li><a href="#_nøkkelgenerering">Nøkkelgenerering</a></li>
-<li><a href="#_avanserte_genereringsvalg">Avanserte genereringsvalg</a>
+<li><a href="#_avanserte_valg_ifm_nøkkelgenerering">Avanserte valg ifm nøkkelgenerering</a>
 <ul class="sectlevel4">
 <li><a href="#_1_rsarsa">1 RSA/RSA</a></li>
 <li><a href="#_2_dsaelgamal">2 DSA/Elgamal</a></li>
@@ -648,6 +648,7 @@ pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
 <li><a href="#_brukersertifisering_av_nøkler">Brukersertifisering av nøkler</a></li>
 <li><a href="#_kryptering_og_signering">Kryptering og signering</a>
 <ul class="sectlevel4">
+<li><a href="#_avanserte_detaljer_om_kryperting_og_signering">Avanserte detaljer om kryperting og signering</a></li>
 <li><a href="#_avanserte_valg_for_signering_og_kryptering">Avanserte valg for signering og kryptering</a></li>
 </ul>
 </li>
@@ -719,8 +720,17 @@ pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
 <div class="paragraph">
 <p>Men blir bedt om et passord (som må oppgis to ganger for sikkerhet skyld).</p>
 </div>
-<div class="paragraph">
-<p>Glemmer du dette passordet, er filen tapt for alltid.</p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Glemmer du dette passordet, er filen tapt for alltid.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Resultatet blir en ny fil <strong>farlig.txt.gpg</strong>, og originalen kan slettes:</p>
@@ -845,7 +855,10 @@ Det er <em>mulig</em> å velge algoritmer som <strong>TWOFISH</strong> som stand
 <div class="sect2">
 <h3 id="_asymmetrisk_kryptering"><a class="anchor" href="#_asymmetrisk_kryptering"></a>Asymmetrisk kryptering</h3>
 <div class="paragraph">
-<p>Bruken her er også enkel. Man vil typisk ønske å sende noe kryptert til en person (hvis offentlige nøkkel ligger i nøkkelringen), eller man ønsker å signere noe (hvilket krever ens personlige passord/passordfrase). Mottar man noe tilsvarende, vil <strong>gpg</strong> tolke den beskyttede meldingen og si hva som evt. må gjøres videre. Eksempler på alt er vist mot slutten av dokumentet.</p>
+<p>Bruken her er også relativ enkel. Man vil typisk ønske å sende noe kryptert til en person (og for dette må vi ha sørget for å ha vedkommendes offentlige nøkkel liggende i nøkkelringen), eller man ønsker å signere noe (hvilket krever ens personlige passord/passordfrase). Vi skal snart se på detaljene her.</p>
+</div>
+<div class="paragraph">
+<p>Mottar man noe tilsvarende, vil <strong>gpg</strong> tolke den beskyttede meldingen og si hva som evt. må gjøres videre. Eksempler på alt er vist mot slutten av dokumentet.</p>
 </div>
 <div class="sect3">
 <h4 id="_nøkkelgenerering"><a class="anchor" href="#_nøkkelgenerering"></a>Nøkkelgenerering</h4>
@@ -861,16 +874,13 @@ Det er <em>mulig</em> å velge algoritmer som <strong>TWOFISH</strong> som stand
 <p>Denne spør om fullt navn og e-postadresse, samt om en beskyttende passordfrase. Dette havner da på det lokale <strong>gpg</strong>-systemets nøkkelring (<em>keychain</em>), og dermed er alt ferdig og klart til bruk.</p>
 </div>
 <div class="paragraph">
-<p>For de fleste er dette tilstrekkelig, og man kan hoppe fram til kapittel <strong>Brukersertifisering av nøkler</strong>.</p>
+<p>De fleste trenger man ikke mer om nøkkelgenerering enn dette, og man kan trygt hoppe fram til kapittel <strong>Brukersertifisering av nøkler</strong>. For entusiaster som ønsker å styre alle valg selv, er det verdt å se på avanserte valg.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_avanserte_genereringsvalg"><a class="anchor" href="#_avanserte_genereringsvalg"></a>Avanserte genereringsvalg</h4>
+<h4 id="_avanserte_valg_ifm_nøkkelgenerering"><a class="anchor" href="#_avanserte_valg_ifm_nøkkelgenerering"></a>Avanserte valg ifm nøkkelgenerering</h4>
 <div class="paragraph">
-<p>Men noen entusiaster ønsker å styre alle valg selv, ikke bare godta standardverdier, så vi viser flere detaljer om nøkkelgenereringen først.</p>
-</div>
-<div class="paragraph">
-<p>Entusiastene kan isteden gjøre</p>
+<p>Isteden for det ovennevnte kan entusiasten gjøre:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1228,7 +1238,7 @@ sub elg1024/0672409B 2025-02-12 [E] [expires: 2026-02-12]</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Opsjonen <strong>-a</strong> (<em>armour</em>) gir ASCII-kodet fil.</p>
+<p>Opsjonen <code>-a</code> (<em>armour</em>) gir ASCII-kodet fil.</p>
 </div>
 <div class="paragraph">
 <p>Når Ola Nordmann får denne, og er trygg på at den virkelig er Karis, importere den inn i sin nøkkelring. Han må bl.a. sjekke fingeravtrykk, som i eksemplene våre for Kari er:</p>
@@ -1285,7 +1295,7 @@ Dersom Ola var av dem med flere egne nøkkelsett i nøkkelringen, måtte han f.e
 </table>
 </div>
 <div class="paragraph">
-<p>Sluttfilen <strong>ola.nordmann.asc.gpg</strong> kan trygt sendes Kari på e-post, og hun kan dekryptere og signatursjekke (ved <code>gpg ola.nordmann.asc.gpg</code>) og importere Olas nøkkel tilsvarende (<code>gpg --import Ola.Nordmann.asc</code>). Ola og Kari kan nå kommunisere trygt og effektivt, og man vil også kunne utvide det til å stole på nøkler den andre har godtatt.</p>
+<p>Sluttfilen <strong>ola.nordmann.asc.gpg</strong> kan trygt sendes Kari på e-post, og hun kan dekryptere og signatursjekke (ved <code>gpg ola.nordmann.asc.gpg</code>) og importere Olas nøkkel tilsvarende (<code>gpg --import Ola.Nordmann.asc</code>). Ola og Kari kan nå kommunisere trygt og effektivt (som vi skal se i i kapittelet under), og man vil også kunne utvide det til å stole på nøkler den andre har godtatt.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1346,6 +1356,8 @@ I tillegg til at filen signeres, får den også et tidstempel (<em>timestamp</em
 <div class="paragraph">
 <p>Det vil fremgå av <strong>gpg</strong>-output til skjerm hvilken nøkkel som er benyttet i kryptering, tidstempelet, samt hvem som har signert outputfilen <strong>farlig.txt</strong>. Hvis <strong>GOOD signature from Ola &#8230;&#8203;</strong> (for riktig Ola) printes til skjem, er alt i orden. Hvis man får <strong>BAD signature</strong> eller <strong>GOOD signature from</strong> noen andre, må hele meldingen/filen selvsagt forkastes.</p>
 </div>
+<div class="sect4">
+<h5 id="_avanserte_detaljer_om_kryperting_og_signering"><a class="anchor" href="#_avanserte_detaljer_om_kryperting_og_signering"></a>Avanserte detaljer om kryperting og signering</h5>
 <div class="paragraph">
 <p>Her kommer igjen flere detaljer for de som ønsker å styre valgene selv.</p>
 </div>
@@ -1413,6 +1425,7 @@ YW5uQGdtYWlsLmNvbQAKCRBllah6o/aMdtzsAQCjJcwObJyEfEYHs5xVV7eSFhtr
 </div>
 <div class="paragraph">
 <p>Igjen kontrolleres det om signaturen er gyldig (at signert dokument samsvarer med kontrakten) og angis hvem som har signert det (forhåpentligvis Ola).</p>
+</div>
 </div>
 <div class="sect4">
 <h5 id="_avanserte_valg_for_signering_og_kryptering"><a class="anchor" href="#_avanserte_valg_for_signering_og_kryptering"></a>Avanserte valg for signering og kryptering</h5>
@@ -1599,7 +1612,7 @@ gpg <span class="nt">--with-colons</span> <span class="nt">--list-keys</span> <s
 <div id="footer">
 <div id="footer-text">
 Version 1.0 2026-02-19<br>
-Last updated 2026-03-08 08:55:01 +0100
+Last updated 2026-03-08 09:09:15 +0100
 </div>
 </div>
 </body>
