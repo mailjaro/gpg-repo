@@ -109,7 +109,9 @@ gpg: writing to 'farlig.txt.gpg'
 
 ## 🔒 Asymmetrisk kryptering
 
-Bruken her er også enkel. Man vil typisk ønske å sende noe kryptert til en person (hvis offentlige nøkkel ligger i nøkkelringen), eller man ønsker å signere noe (hvilket krever ens personlige passord/passordfrase). Mottar man noe tilsvarende, vil **gpg** tolke den beskyttede meldingen og si hva som evt. må gjøres videre. Eksempler på alt er vist mot slutten av dokumentet.
+Bruken her er også relativ enkel. Man vil typisk ønske å sende noe kryptert til en person (og for dette må vi ha sørget for å ha vedkommendes offentlige nøkkel liggende i nøkkelringen), eller man ønsker å signere noe (hvilket krever ens personlige passord/passordfrase). Vi skal snart se på detaljene her.
+
+Mottar man noe tilsvarende, vil **gpg** tolke den beskyttede meldingen og si hva som evt. må gjøres videre. Eksempler på alt er vist mot slutten av dokumentet.
 
 ### 🔑 Nøkkelgenerering
 
@@ -121,13 +123,11 @@ gpg --gen-key
 
 Denne spør om fullt navn og e-postadresse, samt om en beskyttende passordfrase. Dette havner da på det lokale **gpg**-systemets nøkkelring (*keychain*), og dermed er alt ferdig og klart til bruk.
 
-For de fleste er dette tilstrekkelig, og man kan hoppe fram til kapittel **Brukersertifisering av nøkler**.
+De fleste trenger man ikke mer om nøkkelgenerering enn dette, og man kan trygt hoppe fram til kapittel **Brukersertifisering av nøkler**. For entusiaster som ønsker å styre alle valg selv, er det verdt å se på avanserte valg.
 
-### ✔️ Avanserte genereringsvalg
+### ✔️ Avanserte valg ifm nøkkelgenerering
 
-Men noen entusiaster ønsker å styre alle valg selv, ikke bare godta standardverdier, så vi viser flere detaljer om nøkkelgenereringen først.
-
-Entusiastene kan isteden gjøre
+Isteden for det ovennevnte kan entusiasten gjøre:
 
 ```bash
 gpg --full-generate-key
@@ -406,7 +406,7 @@ Anta Ola Nordmann og Kari Nordmann skal signere hverandres nøkler. Kari starter
 gpg -a --export > Kari.Nordmann.asc
 ```
 
-Opsjonen **-a** (*armour*) gir ASCII-kodet fil.
+Opsjonen `-a` (*armour*) gir ASCII-kodet fil.
 
 Når Ola Nordmann får denne, og er trygg på at den virkelig er Karis, importere den inn i sin nøkkelring. Han må bl.a. sjekke fingeravtrykk, som i eksemplene våre for Kari er:
 
@@ -442,7 +442,7 @@ gpg -a --export ola.nordmann@gmail.com | gpg -s -e -r kari.nordmann@gmail.com > 
 
 ❗ Dersom Ola var av dem med flere egne nøkkelsett i nøkkelringen, måtte han f.eks. lagt til `--local-user ola.nordmann@gmail.com` før `--sign-key` (ved nøkkelsigneringen) eller før opsjonen **-s** (ved meldingssigneringen) for å klargjøre hvilken han ville signere med (fingeravtrykk, navn eller e-post som vist). Mer om dette straks.
 
-Sluttfilen **ola.nordmann.asc.gpg** kan trygt sendes Kari på e-post, og hun kan dekryptere og signatursjekke (ved `gpg ola.nordmann.asc.gpg`) og importere Olas nøkkel tilsvarende (`gpg --import Ola.Nordmann.asc`). Ola og Kari kan nå kommunisere trygt og effektivt, og man vil også kunne utvide det til å stole på nøkler den andre har godtatt.
+Sluttfilen **ola.nordmann.asc.gpg** kan trygt sendes Kari på e-post, og hun kan dekryptere og signatursjekke (ved `gpg ola.nordmann.asc.gpg`) og importere Olas nøkkel tilsvarende (`gpg --import Ola.Nordmann.asc`). Ola og Kari kan nå kommunisere trygt og effektivt (som vi skal se i i kapittelet under), og man vil også kunne utvide det til å stole på nøkler den andre har godtatt.
 
 ### 🔑 Kryptering og signering
 
@@ -455,8 +455,7 @@ gpg -e -r 2ADB88CC farlig.txt
 gpg -e -r 81B8B69C2ADB88CC farlig.txt
 ```
 
-De to siste fingeravtrykkbaserte kan være sikrere, men vi benytter gjerne den første for større oversiktlighet. Bruk av kun fornavn i andre
-linje ville som sagt gått bra når det er entydig, selv om det generelt er mer risikofylt i større organisasjoner.
+De to siste fingeravtrykkbaserte kan være sikrere, men vi benytter gjerne den første for større oversiktlighet. Bruk av kun fornavn i andre linje ville som sagt gått bra når det er entydig, selv om det generelt er mer risikofylt i større organisasjoner.
 
 La oss se på signering. I tillegg til offentlige nøkler til venner og bekjente, inneholder nøkkelringen ofte bare ett *eget* nøkkelsett*. Kommandoen
 
@@ -482,6 +481,9 @@ gpg farlig.txt.gpg
 
 Det vil fremgå av **gpg**-output til skjerm hvilken nøkkel som er benyttet i kryptering, tidstempelet, samt hvem som har signert outputfilen **farlig.txt**. Hvis **GOOD signature from Ola ...** (for riktig Ola) printes til skjem, er alt i orden. Hvis man får **BAD signature** eller **GOOD signature from** noen andre, må hele meldingen/filen selvsagt forkastes.
 
+
+#### Avanserte detaljer om kryperting og signering
+
 Her kommer igjen flere detaljer for de som ønsker å styre valgene selv.
 
 For det første er det flere måter å signere på. Om Ola gjør nevnte
@@ -492,8 +494,7 @@ gpg -s dokument.txt
 
 produseres altså en (zippet) signert versjon av dokumentet, **dokument.txt.gpg**. Tanken er at Kari får denne tilsendt og kan både gjenskape **dokument.txt** og få verifisert at Ola har signert den.
 
-Ola har imidlertid to andre muligheter. Kanskje de utveksler e-poster i klartekst og Ola bare vil signere bestemt tekst der. Da kan han benytte
-såkalt **clearsign signature**, som produserer noe alà:
+Ola har imidlertid to andre muligheter. Kanskje de utveksler e-poster i klartekst og Ola bare vil signere bestemt tekst der. Da kan han benytte såkalt **clearsign signature**, som produserer noe alà:
 
 ```output
 -----BEGIN PGP SIGNED MESSAGE-----
@@ -517,8 +518,7 @@ Enten har Kari fått tilsendt en tekstfil med ovennevnte innhold, eller hun kan 
 gpg melding.txt.asc
 ```
 
-Og hun får dermed både en melding til skjerm om gyldighet av signatur, hvem som i tilfelle har signert, samt (hvis gyldig signatur) en fil
-**melding.txt** som inneholder det den signerende (forhåpentligvis Ola) faktisk har signert.
+Og hun får dermed både en melding til skjerm om gyldighet av signatur, hvem som i tilfelle har signert, samt (hvis gyldig signatur) en fil **melding.txt** som inneholder det den signerende (forhåpentligvis Ola) faktisk har signert.
 
 En tredje signeringsmulighet er en såkalt i Her er tanken at Ola har et dokument og et signert dokument, og begge oversendes Kari for å bli kontrollert som et par.
 

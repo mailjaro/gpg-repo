@@ -84,53 +84,26 @@ fish runner.sh
 A `Makefile` replicates these steps and adds dependency tracking. From the project root you can run:
 
 ```bash
-make epub      # builds both dark & light EPUBs
-make html1     # generate HTML version 1
-make html2     # generate HTML version 2
+make epub1     # builds both dark & light EPUBs with pandoc
+make epub2     # builds both dark & light EPUBs with asciidoctor
+make html1     # generate HTML version with emojis
+make html2     # generate HTML version without emojis
 make pdf       # produce the PDF
-make all       # run epub, html1, html2 and pdf
+make all       # run epub1, epub2, html1, html2 and pdf
 ```
 
 Both mechanisms perform the following stages:
 1. Convert `gpg.md` → EPUB (dark and light themes) using Pandoc
 2. Convert `gpg.md` → intermediate AsciiDoc format using Pandoc
-3. Generate HTML1 and HTML2 outputs using AsciiDoctor
-4. Generate PDF output using AsciiDoctor PDF
+3. Generate EPUB (dark and light themes) using Asciidoctor
+4. Generate HTML1 and HTML2 outputs using AsciiDoctor
+5. Generate PDF output using AsciiDoctor PDF
 
-The main file **gpg.md** uses emoji icons :-). EPUB and HTML1 include these icons, while HTML2 and PDF do not.
+The main file **gpg.md** uses emoji icons :-). EPUB1 and HTML1 include these icons, while EPUB2, HTML2 and PDF do not.
 
 All generated files are placed in the `builds/` directory.
 
 ❗ Individual ADOC files can be manually refined to leverage specific AsciiDoc formatting features or to further enhance the HTML or PDF output. Once updated, execute the relevant production commands in **runner.sh** or invoke the corresponding `make` target.
-
-## 📦 Output Formats
-
-| Format | File | Theme | Use Case |
-|--------|------|-------|----------|
-| **HTML** | `gpg-1.html`, `gpg-2.html` | Default | Web browsers |
-| **EPUB** | `gpg-dark.epub` | Dark | E-readers (dark mode) |
-| **EPUB** | `gpg-light.epub` | Light | E-readers (light mode) |
-| **PDF** | `gpg.pdf` | Default | Print & offline reading |
-
-## 🔧 Build Configuration
-
-### Metadata
-
-EPUB production via **pandoc** uses **common.yaml** for its metadata.
-
-HTML/PDF production via **asciidoctor**/ **asciidoctor-pdf**, use the following ADOC masterfiles with preambles and includes: 
-
-- masterHTML-1.adoc
-- masterHTML-2.adoc
-- masterPDF.adoc
-
-
-### Styling
-
-- **EPUB Dark**: Uses `styles/epub-dark.css`
-- **EPUB Light**: Uses `styles/epub-light.css`
-- **HTML 1 and 2**: Use `styles/asciidoctor-default.css`
-- **PDF**: Uses `styles/asciidoctor-default.yml`
 
 
 ## 🎯 Key Features

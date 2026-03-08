@@ -1,0 +1,12 @@
+= Litt om GPG
+Jan R Sandbakken <mailjaro@gmail.com>
+v1.0 2026-02-19
+:description: Dette heftet gir en innføring til GPG
+:doctype: book
+:icons: font
+:sectanchors:
+:source-highlighter: rouge
+:rouge-style: magritte
+:front-cover-image: ../images/cover.png
+
+include::../gpg-2.adoc[]
