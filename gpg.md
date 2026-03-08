@@ -68,9 +68,9 @@ For å gjenskape den opprinnelige filen gjør man vanligvis `gpg farlig.txt.gpg`
 gpg -d -o nyfil.txt farlig.txt.gpg
 ```
 
-❗ Man kan dra sammen flere opsjoner, som **-d -o** til **-do** osv., men dette unngås her for synliggjøring.
+❗ Man kan dra sammen flere opsjoner, som `-d -o` til `-do` osv., men dette unngås her for synliggjøring.
 
- ❗ **gpg** mellomlagrer passord for sesjoner (slik at man en stund ikke trenger å angi passord på nytt). Man kan droppe mellomlagringen ved opsjonen **\--no-symkey-cache**:'
+ ❗ **gpg** mellomlagrer passord for sesjoner (slik at man en stund ikke trenger å angi passord på nytt). Man kan droppe mellomlagringen ved opsjonen `--no-symkey-cache`:'
 
 ```bash
 gpg --no-symkey-cache -c farlig.txt
@@ -92,7 +92,7 @@ Compression: Uncompressed, ZIP, ZLIB, BZIP2
 
 (Kun det sentrale i outputen er vist.) Vi ser først støttede asymmetriske algoritmer (*Pubkey*) før de symmetriske (*Cipher*). Symmetrisk standard er AES256 i CFB-modus. Til slutt ser vi tilgjengelige hash-algoritmer og kompresjonsvalg.
 
-For å velge spesifikk, symmetrisk algoritme, gjør (der vi også har inkludert **-v** for mer informasjon):
+For å velge spesifikk, symmetrisk algoritme, gjør (der vi også har inkludert `-v` for mer informasjon):
 
 ```bash
 gpg --cipher-algo TWOFISH -c -v farlig.txt
@@ -245,7 +245,7 @@ Comment:
 
 Til slutt genereres nøkkelparet. (Det anbefales å ha en del tilfeldig aktivitet gående på PC-en her for å sikre mest mulig tilfeldighet i genereringen.)
 
-Under ser vi et eksempel på sluttresultat (som også kan fås fram ved **gpg -k**):
+Under ser vi et eksempel på sluttresultat (som også kan fås fram ved `gpg -k`):
 
 ```output
 pgpg: revocation certificate stored as
@@ -256,7 +256,7 @@ uid Ola Nordmann (Kun for testformål) <ola.nordmann@gmail.com>
 sub elg1024 2025-02-12 [E] [expires: 2026-02-12]
 ```
 
-Merk at man får laget *to* nøkkelpar: *master* (*primary*) og *sub* (*secondary*). Hensikten med *sub*-nøkkelen (som er bundet til *master*) er at den kan oppbevares og annulleres uavhengig av *master*. Det er egentlig offentlig *sub*-nøkkel som blir eksportert og benyttet i andres kryptering til deg. *Master*-paret kan tryggere begrenses til intern håndtering av signering, sertifisering, nøkkelring etc.
+❗ Merk at man får laget *to* nøkkelpar: *master* (*primary*) og *sub* (*secondary*). Hensikten med *sub*-nøkkelen (som er bundet til *master*) er at den kan oppbevares og annulleres uavhengig av *master*. Det er egentlig offentlig *sub*-nøkkel som blir eksportert og benyttet i andres kryptering til deg. *Master*-paret kan tryggere begrenses til intern håndtering av signering, sertifisering, nøkkelring etc.
 
 I eksempelet er begge 1014-bits **DSA**/**Elgemal**-nøkler med én og samme utløpsdato. *Primary* er merket `[SC]`, og *secondary* er merket `[E]`. Dette betegner bruksegenskapene hhv. **S**ign og **C**ertify, og **E**ncryption (nøkkelutveksling) i tråd med det ovennevnte.
 
@@ -354,7 +354,7 @@ gpg> (save)
 
 Om det gir mening å forlenge en *pub*-nøkkel mer enn *primarys* levetid, er en annen sak, men *primary* kan endres tilsvarende. *Primary* har **key** 0. Den velges også om man bare skriver **key**. (Ingen stjerne betyr at *master* er valgt.)
 
-Videre, i utskriften fra **gpg -k**, ser man fingeravtrykket til den offentlige *master*-nøkkelen:
+Videre, i utskriften fra `gpg -k`, ser man fingeravtrykket til den offentlige *master*-nøkkelen:
 
 ```output
 D2AF 134F 36B2 EC2E 654E EABC 56C8 D1EE 935C 2180
@@ -440,7 +440,7 @@ Nå kan Ola også eksportere sin nøkkel og få den signert av Kari. Han vil da 
 gpg -a --export ola.nordmann@gmail.com | gpg -s -e -r kari.nordmann@gmail.com > ola.nordmann.asc.gpg
 ```
 
-**Merk**: Dersom Ola var av dem med flere egne nøkkelsett i nøkkelringen, måtte han f.eks. lagt til `--local-user ola.nordmann@gmail.com` før **--sign-key** (ved nøkkelsigneringen) eller før opsjonen **-s** (ved meldingssigneringen) for å klargjøre hvilken han ville signere med (fingeravtrykk, navn eller e-post som vist). Mer om dette straks.
+❗ Dersom Ola var av dem med flere egne nøkkelsett i nøkkelringen, måtte han f.eks. lagt til `--local-user ola.nordmann@gmail.com` før `--sign-key` (ved nøkkelsigneringen) eller før opsjonen **-s** (ved meldingssigneringen) for å klargjøre hvilken han ville signere med (fingeravtrykk, navn eller e-post som vist). Mer om dette straks.
 
 Sluttfilen **ola.nordmann.asc.gpg** kan trygt sendes Kari på e-post, og hun kan dekryptere og signatursjekke (ved `gpg ola.nordmann.asc.gpg`) og importere Olas nøkkel tilsvarende (`gpg --import Ola.Nordmann.asc`). Ola og Kari kan nå kommunisere trygt og effektivt, og man vil også kunne utvide det til å stole på nøkler den andre har godtatt.
 
@@ -466,7 +466,7 @@ gpg -s farlig.txt
 
 er da alt man trenger for å lage en signert fil **farlig.txt.gpg**.
 
-**Merk**: I tillegg til at filen signeres, får den også et tidstempel (*timestamp*). I noen anvendelser er slikt like viktig.
+❗ I tillegg til at filen signeres, får den også et tidstempel (*timestamp*). I noen anvendelser er slikt like viktig.
 
 Og skal Ola både kryptere og sende en fil til Kari, kan han gjøre
 
@@ -542,7 +542,7 @@ De som ikke hoppet over underkapittelet om avanserte genereringsvalg, vet at Ola
 
 For det første kan han sette hva som er standard `[S]`-nøkkel i filen **\~/.gnupg/gpg.conf**. Et eksempel på dette er vist til slutt i kapittelet. Men hvis han isteden vil spesifisere fra gang til gang, kan man gjøre som forklart i fortsettelsen. La oss se på dette med ekstra signeringsnøkler først.
 
-Dersom Ola bare legger til én ekstra `[S]`-nøkkel, viser det seg at **gpg** alltid velger *den* for signering, selv om han i kommandoer forsøker å angi den opprinnelige neringsnøkkelen. Så for å få demonstrert valg av signeringsnøkler, legger vi til to stk. Det er allerede gjort under. Her har Ola har to *sub* `[S]`-nøkler (hhv. én **RSA**- og én **ECC**-basert nøkkel), foruten én sub `[E]`-nøkkel (**Elgamal**-basert).
+Dersom Ola bare legger til én ekstra `[S]`-nøkkel, viser det seg at **gpg** alltid velger *den* for signering, selv om han i kommandoer forsøker å angi den opprinnelige signeringsnøkkelen. Så for å få demonstrert valg av signeringsnøkler, legger vi til to stk. Det er allerede gjort under. Her har Ola har to *sub* `[S]`-nøkler (hhv. én **RSA**- og én **ECC**-basert nøkkel), foruten én sub `[E]`-nøkkel (**Elgamal**-basert).
 
 ```bash
 gpg --keyid-format short --list-keys ola.nordmann@gmail.com
@@ -594,7 +594,7 @@ gpg: binary signature, digest algorithm SHA256, key algorithm brainpoolP256r1
 
 og vi ser at signeringsvalget framgår tydelig.
 
-På samme måte kan Ola skille mellom signeringsnøkler på ulike *nøkkelsett*. En id er tilstrekkelig også her. Alternativt kan han benytte opsjonen \--**local-user** og angi navn eller e-post, noe som skiller på nøkkelsett - om han godtar standardvalg av signeringsnøkkel.
+På samme måte kan Ola skille mellom signeringsnøkler på ulike *nøkkelsett*. En id er tilstrekkelig også her. Alternativt kan han benytte opsjonen `--local-user` og angi navn eller e-post, noe som skiller på nøkkelsett - om han godtar standardvalg av signeringsnøkkel.
 
 ❗ Man kan *ikke* velge bestemte `[E]`-nøkler på samme måte. **gpg** vil selv håndtere nøkkelutveksling ut fra nøkkelmulighetene til begge brukerne.
 
@@ -627,7 +627,7 @@ gpg: Good signature from "Ola Nordmann (Kun for testformål) <ola.nordmann@gmail
 
 og få produsert åpen fil **farlig.txt**.
 
-Ola kan selvsagt også kryptere (evt. signere eller kryptere *og* signere) til seg selv ved å angi recipient **-r Ola**, `r -ola.nordmann@gmail.com` eller tilsvarende). Hvis han da ikke heller vil bruke den symmetriske varianten med **-c** i dette tilfellet.
+Ola kan selvsagt også kryptere (evt. signere eller kryptere *og* signere) til seg selv ved å angi recipient `-r Ola`, `r -ola.nordmann@gmail.com` eller tilsvarende. Hvis han da ikke heller vil bruke den symmetriske varianten med `-c` i dette tilfellet.
 
 ### ➕ Annet
 
