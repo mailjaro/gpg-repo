@@ -657,7 +657,7 @@ Dersom du ønsker å gjøre gpp-nøklene dine tilgjengelig for andre, vurder ste
 
 ## 📚 Andre hefter i serien
 
-📘 Linux: Det neste steget
+📘 [Linux for hjemmebruk](https://mailjaro.github.io/linux-repo/)
 
 📘 [Litt om Git](https://mailjaro.github.io/git-repo/)
 
@@ -666,3 +666,7 @@ Dersom du ønsker å gjøre gpp-nøklene dine tilgjengelig for andre, vurder ste
 📘 [Litt om CSS](https://mailjaro.github.io/css-repo/)
 
 📘 [Litt om syntaksutheving](https://mailjaro.github.io/highlight-repo/)
+
+📘 [Litt om makefile](https://mailjaro.github.io/makefile-repo/)
+
+📘 [Moderne AI: Virkemåte](https://mailjaro.github.io/ai-repo/)
